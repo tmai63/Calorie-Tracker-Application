@@ -1,11 +1,13 @@
-# My Personal Project
+# Meal and Calorie Tracker
 
-## A subtitle
+## Keep track of what you have been eating and calories!
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+Some of the program's functions:
+- **Set your daily calorie target**
+- **Enter what you have had for each meal**
+- **View your eating history**
 
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
+This app will be great for people trying to stay healthy or 
+are on a diet. Set your calorie targets and keep track of 
+your meals throughout the day. Keep a record of your meal
+history and view your progress!
