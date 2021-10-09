@@ -14,6 +14,7 @@ history and view your progress!
 
 ## User Stores:
 - As a user, I want to be able to add a food I ate to the list of foods eaten today
+- As a user, I want to be able to group the foods I ate into meals
 - As a user, I want to be able to set a calorie target
-- As a user, I want to be able to view what I ate yesterday
-- As a user, I want to be able to see how many calories I have eaten today
+- As a user, I want to be able to see total calories I have eaten today
+- As a user, I want to be able to see how many more calories I can consume and remain below my target
