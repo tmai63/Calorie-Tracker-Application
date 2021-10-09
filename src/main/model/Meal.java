@@ -8,7 +8,6 @@ public class Meal {
     protected int calories;
     protected String foodName;
     protected String mealType;
-    private List<Meal> meals;
 
     public Meal(String mealType, String foodName, int calories) {
         this.mealType = mealType;
@@ -19,6 +18,14 @@ public class Meal {
     // EFFECTS: returns the number of calories
     public int getCalories() {
         return calories;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public String getMealType() {
+        return mealType;
     }
 
     // TODO: Look up instanceof
