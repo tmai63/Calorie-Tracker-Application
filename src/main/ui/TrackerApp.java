@@ -138,7 +138,7 @@ public class TrackerApp {
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        dinner = new Meal("Breakfast", food, calories);
+        dinner = new Meal("Dinner", food, calories);
         day.addMeal(dinner);
     }
 
@@ -152,7 +152,7 @@ public class TrackerApp {
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        snack = new Meal("Breakfast", food, calories);
+        snack = new Meal("Snack", food, calories);
         day.addMeal(snack);
     }
 
@@ -168,8 +168,11 @@ public class TrackerApp {
                 System.out.println("You can eat " + (calorieTarget - day.returnCalories()) +  " more calories!");
             }
             System.out.println("Number of foods eaten today: " + day.numItems());
-            day.returnItems();
-            System.out.println("Press any key to return to main menu:");
+            //day.returnItems();
+            for (int i = 0; i < day.numItems(); i++) {
+                System.out.println(day.returnItem(i));
+            }
+            System.out.println("Enter any key to return to main menu:");
             next = input.next();
         }
     }

@@ -42,11 +42,11 @@ public class DayTest {
         assertEquals(2,day.numItems());
     }
 
-//    @Test
-//    void testReturnItems() {
-//        String result = "Lunch: Hamburger - 600 calories";
-//        day.addMeal(hamburger);
-//        assertEquals(result, ());
-//    }
+    @Test
+    void testReturnItems() {
+        String result = "Lunch: Hamburger - 600 calories";
+        day.addMeal(hamburger);
+        assertEquals(result, day.returnItem(0));
+    }
 
 }

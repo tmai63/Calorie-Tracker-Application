@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Day {
 
-    protected List<Meal> meals;
+    private List<Meal> meals;
 
     public Day() {
         meals = new ArrayList<>();
@@ -27,9 +27,10 @@ public class Day {
         return meals.size();
     }
 
-    public void returnItems() {
-        for (Meal meal: meals) {
-            System.out.println(meal.getMealType() + ": " + meal.foodName + "-" + meal.getCalories() + " calories");
-        }
+    public String returnItem(int index) {
+        String meal;
+        meal = meals.get(index).getMealType() + ": " + meals.get(index).getFoodName()
+                + " - " + meals.get(index).getCalories() + " calories";
+        return meal;
     }
 }
