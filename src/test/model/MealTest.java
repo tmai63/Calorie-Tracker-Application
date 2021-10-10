@@ -7,25 +7,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MealTest {
 
-//    private Meal meal;
-//    private Breakfast breakfast;
-//    private Lunch lunch;
-//    private Dinner dinner;
-//    private Snack snack;
+    Meal hamburger;
 
     @BeforeEach
     void runBefore() {
-//        Breakfast muffin = new Breakfast("Muffin", 200);
-//        Lunch hamburger = new Lunch("Hamburger",500);
-//        Dinner steak = new Dinner("Steak",800);
-//        Snack chips = new Snack("Chips",100);
+        hamburger = new Meal("Lunch", "Hamburger", 600);
     }
 
     @Test
-    void testBreakfast() {
-        //assertEquals(200,muffin.getCalories());
+    void testCalories() {
+        assertEquals(600,hamburger.getCalories());
     }
 
+    @Test
+    void testMealType() {
+        assertEquals("Lunch", hamburger.getMealType());
+    }
 
-
+    @Test
+    void testFoodName() {
+        assertEquals("Hamburger", hamburger.getFoodName());
+    }
 }
