@@ -32,8 +32,4 @@ public class Day {
             System.out.println(meal.getMealType() + ": " + meal.foodName + "-" + meal.getCalories() + " calories");
         }
     }
-
-
-
-    //meals = new ArrayList<Meal>();
 }
