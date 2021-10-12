@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DayTest {
 
     private Day day;
-    Meal hamburger;
-    Meal steak;
+    Food hamburger;
+    Food steak;
 
     @BeforeEach
     void runBefore() {
         day = new Day();
-        hamburger = new Meal("Lunch","Hamburger",600);
-        steak = new Meal("Dinner","Steak",700);
+        hamburger = new Food("Lunch","Hamburger",600);
+        steak = new Food("Dinner","Steak",700);
     }
 
     @Test

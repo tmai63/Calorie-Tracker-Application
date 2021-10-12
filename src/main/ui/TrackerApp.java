@@ -1,17 +1,26 @@
 package ui;
 
 import model.Day;
-import model.Meal;
+import model.Food;
 
 import java.util.Scanner;
 
+
+// Calorie tracker application
 public class TrackerApp {
 
     private Scanner input;
     private Day day;
     private int calorieTarget;
 
+    // EFFECTS: runs the tracker application
     public TrackerApp() {
+        runTracker();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes user input
+    public void runTracker() {
         boolean keepGoing = true;
         String command;
 
@@ -29,9 +38,10 @@ public class TrackerApp {
             }
         }
         System.out.println("Have a nice day!");
-
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     public void processCommand(String command) {
         if (command.equals("s")) {
             setCalorieTarget();
@@ -44,6 +54,8 @@ public class TrackerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     public void processMeal(String meal) {
         if (meal.equals("b")) {
             addBreakfast();
@@ -58,12 +70,15 @@ public class TrackerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes a new day object
     private void init() {
         day = new Day();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
 
+    // EFFECTS: displays the main menu to the user
     public void displayMainMenu() {
         System.out.println("Select From:");
         System.out.println("s -> set calorie target");
@@ -72,6 +87,7 @@ public class TrackerApp {
         System.out.println("q -> quit");
     }
 
+    // EFFECTS: displays the meal menu to the user
     public void displayMealMenu() {
         System.out.println("Select Meal:");
         System.out.println("b -> breakfast");
@@ -80,6 +96,8 @@ public class TrackerApp {
         System.out.println("s -> snack");
     }
 
+    // MODIFIES: this
+    // EFFECTS: lets the user set a calorie target
     public void setCalorieTarget() {
         int calorieTarget = -1;
 
@@ -90,6 +108,8 @@ public class TrackerApp {
         this.calorieTarget = calorieTarget;
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input on which meal to input
     public void selectMeal() {
         String meal = "";
         displayMealMenu();
@@ -100,62 +120,74 @@ public class TrackerApp {
         processMeal(meal);
     }
 
+    // MODIFIES: foods list
+    // EFFECTS: lets user enter a food eaten for breakfast and adds it to the list of foods
     public void addBreakfast() {
         String food;
         int calories;
-        Meal breakfast;
+        Food breakfast;
 
         System.out.println("What did you eat?");
         food = input.next();
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        breakfast = new Meal("Breakfast", food, calories);
+        breakfast = new Food("Breakfast", food, calories);
         day.addMeal(breakfast);
     }
 
+    // MODIFIES: foods list
+    // EFFECTS: lets user enter a food eaten for lunch and adds it to the list of foods
     public void addLunch() {
         String food;
         int calories;
-        Meal lunch;
+        Food lunch;
 
         System.out.println("What did you eat?");
         food = input.next();
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        lunch = new Meal("Lunch", food, calories);
+        lunch = new Food("Lunch", food, calories);
         day.addMeal(lunch);
     }
 
+    // MODIFIES: foods list
+    // EFFECTS: lets user enter a food eaten for dinner and adds it to the list of foods
     public void addDinner() {
         String food;
         int calories;
-        Meal dinner;
+        Food dinner;
 
         System.out.println("What did you eat?");
         food = input.next();
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        dinner = new Meal("Dinner", food, calories);
+        dinner = new Food("Dinner", food, calories);
         day.addMeal(dinner);
     }
 
+    // MODIFIES: foods list
+    // EFFECTS: lets user enter a food eaten for snack and adds it to the list of foods
     public void addSnack() {
         String food;
         int calories;
-        Meal snack;
+        Food snack;
 
         System.out.println("What did you eat?");
         food = input.next();
         System.out.println("How many calories was it?");
         calories = input.nextInt();
 
-        snack = new Meal("Snack", food, calories);
+        snack = new Food("Snack", food, calories);
         day.addMeal(snack);
     }
 
+    // EFFECTS: prints the user's set calorie target; consumed calories so far today;
+    //          let user knows if they are over their calorie target, if not, prints
+    //          how many more calories a user can consume if they are still under the calorie target;
+    //          prints the list of foods eaten today;
     public void viewFoods() {
         String next = "";
 

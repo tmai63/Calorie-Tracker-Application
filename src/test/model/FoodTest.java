@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MealTest {
+class FoodTest {
 
-    Meal hamburger;
+    Food hamburger;
 
     @BeforeEach
     void runBefore() {
-        hamburger = new Meal("Lunch", "Hamburger", 600);
+        hamburger = new Food("Lunch", "Hamburger", 600);
     }
 
     @Test
@@ -21,7 +21,7 @@ class MealTest {
 
     @Test
     void testMealType() {
-        assertEquals("Lunch", hamburger.getMealType());
+        assertEquals("Lunch", hamburger.getFoodType());
     }
 
     @Test
