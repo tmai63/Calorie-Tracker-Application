@@ -26,6 +26,8 @@ public class TrackerApp {
 
         init();
 
+        System.out.println(day.returnDate());
+
         while (keepGoing) {
             displayMainMenu();
             command = input.next();

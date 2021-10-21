@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,14 @@ public class Food {
     // EFFECTS: returns the meal the food was eaten for
     public String getFoodType() {
         return mealType;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Meal", mealType);
+        json.put("Name", foodName);
+        json.put("Calories",calories);
+        return json;
     }
 
 }

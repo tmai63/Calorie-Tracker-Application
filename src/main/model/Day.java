@@ -1,17 +1,32 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 
 // Represents a day, which keeps track of the number of foods eaten over one day
 public class Day {
 
+    private LocalDate date;
     private List<Food> foods; // list of foods eaten
 
-    // EFFECTS: creates new ArrayList of foods to store items eaten
+    // EFFECTS: creates new ArrayList of foods to store items eaten for current day
     public Day() {
         foods = new ArrayList<>();
+        date = LocalDate.now();
+//        year = today.getYear();
+//        month = today.getMonthValue();
+//        day = today.getDayOfMonth();
+    }
+
+    // EFFECTS: creates new Arraylist of foods for a certain date
+    public Day(LocalDate date) {
+        foods = new ArrayList<>();
+        this.date = date;
     }
 
     // MODIFIES: this
@@ -42,5 +57,26 @@ public class Day {
         meal = foods.get(index).getFoodType() + ": " + foods.get(index).getFoodName()
                 + " - " + foods.get(index).getCalories() + " calories";
         return meal;
+    }
+
+    public LocalDate returnDate() {
+        return date;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Date",date);
+        json.put("Meals",mealsToJson());
+        return json;
+    }
+
+    private JSONArray mealsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Food f: foods) {
+            jsonArray.put(f.toJson());
+        }
+
+        return jsonArray;
     }
 }

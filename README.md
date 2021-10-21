@@ -17,3 +17,5 @@ history and view your progress!
 - As a user, I want to be able to set a calorie target
 - As a user, I want to be able to see total calories I have eaten today
 - As a user, I want to be able to see how many more calories I can consume and remain below my target
+- As a user, I want to be able to save the foods I have eaten today
+- As a user, I want to be able to load the foods I have eaten previously
