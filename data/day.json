@@ -1,8 +1,26 @@
 {
-    "Meals": [{
-        "Meal": "Breakfast",
-        "Calories": 200,
-        "Name": "braed"
-    }],
+    "Calorie Target": 3000,
+    "Meals": [
+        {
+            "Meal": "Breakfast",
+            "Calories": 300,
+            "Name": "cereal"
+        },
+        {
+            "Meal": "Lunch",
+            "Calories": 800,
+            "Name": "sushi"
+        },
+        {
+            "Meal": "Dinner",
+            "Calories": 700,
+            "Name": "steak"
+        },
+        {
+            "Meal": "Snack",
+            "Calories": 300,
+            "Name": "yogurt"
+        }
+    ],
     "Date": "2021-10-21"
 }

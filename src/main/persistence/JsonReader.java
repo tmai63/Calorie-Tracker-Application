@@ -43,6 +43,7 @@ public class JsonReader {
         LocalDate date1 = LocalDate.parse(date,formatter);
         Day day = new Day(date1);
         addDay(day, jsonObject);
+        setCalories(day, jsonObject);
         return day;
     }
 
@@ -61,6 +62,12 @@ public class JsonReader {
         Food food = new Food(meal,foodName,calories);
         day.addMeal(food);
     }
+
+    private void setCalories(Day day, JSONObject jsonObject) {
+        int calorieTarget = jsonObject.getInt("Calorie Target");
+        day.setCalorieTarget(calorieTarget);
+    }
+
 
 }
 

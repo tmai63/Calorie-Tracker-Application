@@ -92,6 +92,7 @@ public class TrackerApp {
         jsonReader = new JsonReader(JSON_STORE);
     }
 
+    // EFFECTS: loads foods from file
     private void loadFoods() {
         try {
             day = jsonReader.read();
@@ -101,6 +102,7 @@ public class TrackerApp {
         }
     }
 
+    // EFFECTS: saves foods to file
     private void saveFoods() {
         try {
             jsonWriter.open();
@@ -235,8 +237,11 @@ public class TrackerApp {
             for (int i = 0; i < day.numItems(); i++) {
                 System.out.println(day.returnItem(i));
             }
-            System.out.println("Enter any key to return to main menu:");
-            next = input.next();
+
+            while (!next.equals("m")) {
+                System.out.println("Enter m to return to main menu:");
+                next = input.next();
+            }
         }
     }
 

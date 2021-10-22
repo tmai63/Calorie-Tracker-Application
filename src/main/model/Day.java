@@ -73,9 +73,11 @@ public class Day {
         return date;
     }
 
+    //
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("Date",date);
+        json.put("Calorie Target", calorieTarget);
         json.put("Meals",mealsToJson());
         return json;
     }
