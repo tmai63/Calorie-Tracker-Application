@@ -37,8 +37,8 @@ public class JsonReader {
     }
 
     private Day parseDay(JSONObject jsonObject) {
-        String date = jsonObject.getString("name");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String date = jsonObject.getString("Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date1 = LocalDate.parse(date,formatter);
         Day day = new Day(date1);
         addFood(day, jsonObject);
@@ -46,7 +46,6 @@ public class JsonReader {
     }
 
     private void addFood(Day day, JSONObject jsonObject) {
-
 
     }
 

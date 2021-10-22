@@ -13,14 +13,12 @@ public class Day {
 
     private LocalDate date;
     private List<Food> foods; // list of foods eaten
+    private int calorieTarget;
 
     // EFFECTS: creates new ArrayList of foods to store items eaten for current day
     public Day() {
         foods = new ArrayList<>();
         date = LocalDate.now();
-//        year = today.getYear();
-//        month = today.getMonthValue();
-//        day = today.getDayOfMonth();
     }
 
     // EFFECTS: creates new Arraylist of foods for a certain date
@@ -59,6 +57,18 @@ public class Day {
         return meal;
     }
 
+    // REQUIRES: calorieTarget >= 0
+    // EFFECTS: sets calorieTarget
+    public void setCalorieTarget(int calorieTarget) {
+        this.calorieTarget = calorieTarget;
+    }
+
+    // EFFECTS: returns calorieTarget
+    public int returnCalorieTarget() {
+        return calorieTarget;
+    }
+
+    // EFFECTS: returns the date for this day
     public LocalDate returnDate() {
         return date;
     }
