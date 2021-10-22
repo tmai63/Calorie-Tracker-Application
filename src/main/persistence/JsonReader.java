@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
+import model.Food;
 import org.json.*;
 
 public class JsonReader {
@@ -41,12 +42,24 @@ public class JsonReader {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date1 = LocalDate.parse(date,formatter);
         Day day = new Day(date1);
-        addFood(day, jsonObject);
+        addDay(day, jsonObject);
         return day;
     }
 
-    private void addFood(Day day, JSONObject jsonObject) {
+    private void addDay(Day day, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("Meals");
+        for (Object json : jsonArray) {
+            JSONObject nextDay = (JSONObject) json;
+            addFood(day, nextDay);
+        }
+    }
 
+    private void addFood(Day day, JSONObject jsonObject) {
+        String meal = jsonObject.getString("Meal");
+        String foodName = jsonObject.getString("Name");
+        int calories = jsonObject.getInt("Calories");
+        Food food = new Food(meal,foodName,calories);
+        day.addMeal(food);
     }
 
 }
