@@ -32,6 +32,7 @@ public class JsonWriterTest {
             writer.write(day);
             writer.close();
 
+
             JsonReader reader = new JsonReader("./data/emptyDay.json");
             day = reader.read();
             assertEquals(LocalDate.now(),day.returnDate());
@@ -54,11 +55,14 @@ public class JsonWriterTest {
             writer.close();
 
             JsonReader reader = new JsonReader("./data/fullDay.json");
+            String result = "Breakfast: Bagel - 200 calories";
+
             day = reader.read();
             assertEquals(LocalDate.now(),day.returnDate());
             assertEquals(1,day.numItems());
             assertEquals(1500,day.returnCalorieTarget());
             assertEquals(200,day.returnCalories());
+            assertEquals(result, day.returnItem(0));
         } catch (IOException e) {
             fail("No exception should have been thrown");
         }

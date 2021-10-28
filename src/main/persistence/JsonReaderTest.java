@@ -27,7 +27,7 @@ public class JsonReaderTest {
 
     @Test
     void testReaderEmptyWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyWorkRoom.json");
+        JsonReader reader = new JsonReader("./data/testReaderEmptyDay.json");
         try {
             Day day = reader.read();
             assertEquals(LocalDate.now(), day.returnDate());
@@ -39,7 +39,7 @@ public class JsonReaderTest {
 
     @Test
     void testReaderGeneralWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralWorkRoom.json");
+        JsonReader reader = new JsonReader("./data/testReaderFullDay.json");
         try {
             Day day = reader.read();
             assertEquals(LocalDate.now(), day.returnDate());
