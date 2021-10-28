@@ -1,8 +1,9 @@
-package persistence;
+package model;
 
 import model.Day;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
 
 import java.io.IOException;
 import java.time.LocalDate;

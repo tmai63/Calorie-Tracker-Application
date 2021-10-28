@@ -1,8 +1,10 @@
-package persistence;
+package model;
 
 import model.Day;
 import model.Food;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import java.io.IOException;
 import java.time.LocalDate;
