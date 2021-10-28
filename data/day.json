@@ -1,5 +1,5 @@
 {
-    "Calorie Target": 3000,
+    "Calorie Target": 1500,
     "Meals": [
         {
             "Meal": "Breakfast",
@@ -20,6 +20,11 @@
             "Meal": "Snack",
             "Calories": 300,
             "Name": "yogurt"
+        },
+        {
+            "Meal": "Lunch",
+            "Calories": 500,
+            "Name": "subway"
         }
     ],
     "Date": "2021-10-21"

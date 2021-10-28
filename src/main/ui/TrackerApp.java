@@ -7,6 +7,7 @@ import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -140,10 +141,16 @@ public class TrackerApp {
     // EFFECTS: lets the user set a calorie target
     private void setCalorieTarget() {
         int calorieTarget = -1;
+        boolean keepAsking = true;
 
-        while (calorieTarget <= 0) {
-            System.out.println("Enter desired calorie target:");
-            calorieTarget = input.nextInt();
+        while (keepAsking) {
+            try {
+                System.out.println("Enter desired calorie target:");
+                calorieTarget = input.nextInt();
+                keepAsking = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Must be a number!");
+            }
         }
         day.setCalorieTarget(calorieTarget);
     }

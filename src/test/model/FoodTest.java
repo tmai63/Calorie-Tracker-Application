@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.json.JSONObject;
+
 class FoodTest {
 
     Food hamburger;
@@ -28,4 +30,11 @@ class FoodTest {
     void testFoodName() {
         assertEquals("Hamburger", hamburger.getFoodName());
     }
+
+//    @Test
+//    void testToJson() {
+//        JSONObject jsonObject = new JSONObject();
+//        String json = "{\"Meal\":\"Lunch\",\"Calories\":600,\"Name\":\"Hamburger\"}";
+//        assertEquals(json,hamburger.toJson());
+//    }
 }

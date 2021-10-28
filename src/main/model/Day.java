@@ -13,7 +13,7 @@ public class Day {
 
     private LocalDate date;
     private List<Food> foods; // list of foods eaten
-    private int calorieTarget;
+    private int calorieTarget = 0;
 
     // EFFECTS: creates new ArrayList of foods to store items eaten for current day
     public Day() {
