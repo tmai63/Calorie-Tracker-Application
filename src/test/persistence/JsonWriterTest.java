@@ -1,4 +1,4 @@
-package model;
+package persistence;
 
 import model.Day;
 import model.Food;

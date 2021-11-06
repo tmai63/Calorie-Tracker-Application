@@ -2,6 +2,7 @@ package ui;
 
 import model.Day;
 import model.Food;
+import model.Manager;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -17,6 +18,7 @@ public class TrackerApp {
     private static final String JSON_STORE = "./data/day.json";
     private Scanner input;
     private Day day;
+    private Manager manager;
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
 
@@ -52,41 +54,61 @@ public class TrackerApp {
     // MODIFIES: this
     // EFFECTS: processes user input
     private void processCommand(String command) {
-        if (command.equals("c")) {
-            setCalorieTarget();
-        } else if (command.equals("e")) {
-            selectMeal();
-        } else if (command.equals("v")) {
-            viewFoods();
-        } else if (command.equals("l")) {
-            loadFoods();
-        } else if (command.equals("s")) {
-            saveFoods();
-        } else {
-            System.out.println("Selection not valid...");
+        switch (command) {
+            case "c":
+                setCalorieTarget();
+                break;
+            case "e":
+                selectMeal();
+                break;
+            case "v":
+                viewFoods();
+                break;
+            case "l":
+                loadFoods();
+                break;
+            case "s":
+                saveFoods();
+                break;
+            default:
+                System.out.println("Selection not valid...");
+                break;
         }
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void processMeal(String meal) {
-        if (meal.equals("b")) {
-            addBreakfast();
-        } else if (meal.equals("l")) {
-            addLunch();
-        } else if (meal.equals("d")) {
-            addDinner();
-        } else if (meal.equals("s")) {
-            addSnack();
-        } else {
-            System.out.println("Selection not valid...");
+    private void addMeal(String meal) {
+        Food food;
+        switch (meal) {
+            case "b":
+                food = new Food("Breakfast", inputFoodName(), inputCalories());
+                day.addMeal(food);
+                break;
+            case "l":
+                food = new Food("Lunch", inputFoodName(), inputCalories());
+                day.addMeal(food);
+                break;
+            case "d":
+                food = new Food("Dinner", inputFoodName(), inputCalories());
+                day.addMeal(food);
+                break;
+            case "s":
+                food = new Food("Snack", inputFoodName(), inputCalories());
+                day.addMeal(food);
+                break;
+            default:
+                System.out.println("Selection not valid...");
+                break;
         }
     }
 
     // MODIFIES: this
     // EFFECTS: initializes a new day object
     private void init() {
+        manager = new Manager();
         day = new Day();
+        manager.addDay(day);
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -164,7 +186,7 @@ public class TrackerApp {
         while (!((meal.equals("b")) || meal.equals("l") || meal.equals("d") || meal.equals("s"))) {
             meal = input.next();
         }
-        processMeal(meal);
+        addMeal(meal);
     }
 
     // EFFECTS: asks user to enter name of food eaten
@@ -185,42 +207,6 @@ public class TrackerApp {
         calories = input.nextInt();
 
         return calories;
-    }
-
-    // MODIFIES: foods list
-    // EFFECTS: lets user enter a food eaten for breakfast and adds it to the list of foods
-    private void addBreakfast() {
-        Food breakfast;
-
-        breakfast = new Food("Breakfast", inputFoodName(), inputCalories());
-        day.addMeal(breakfast);
-    }
-
-    // MODIFIES: foods list
-    // EFFECTS: lets user enter a food eaten for lunch and adds it to the list of foods
-    private void addLunch() {
-        Food lunch;
-
-        lunch = new Food("Lunch", inputFoodName(), inputCalories());
-        day.addMeal(lunch);
-    }
-
-    // MODIFIES: foods list
-    // EFFECTS: lets user enter a food eaten for dinner and adds it to the list of foods
-    private void addDinner() {
-        Food dinner;
-
-        dinner = new Food("Dinner", inputFoodName(), inputCalories());
-        day.addMeal(dinner);
-    }
-
-    // MODIFIES: foods list
-    // EFFECTS: lets user enter a food eaten for snack and adds it to the list of foods
-    private void addSnack() {
-        Food snack;
-
-        snack = new Food("Snack", inputFoodName(), inputCalories());
-        day.addMeal(snack);
     }
 
     // EFFECTS: prints the user's set calorie target; consumed calories so far today;
