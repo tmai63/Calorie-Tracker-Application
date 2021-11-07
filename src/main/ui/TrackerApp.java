@@ -155,7 +155,7 @@ public class TrackerApp {
     // EFFECTS: loads foods from file
     private void loadFoods() {
         try {
-            currentDay = jsonReader.read();
+            dayManager = jsonReader.read();
             System.out.println("Loaded " + currentDay.returnDate() + " from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);

@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class JsonWriterTest {
 
+
     @Test
     void testInvalidWriteFile() {
         try {
@@ -38,29 +39,31 @@ public class JsonWriterTest {
 
             JsonReader reader = new JsonReader("./data/emptyDayManager.json");
             dm = reader.read();
-            assertEquals(LocalDate.now(),dm.returnDate());
-            assertEquals(0,day.numItems());
-            assertEquals(0,day.returnCalorieTarget());
+            assertEquals(0,dm.numDays());
         } catch (IOException e) {
             fail("No exception should have been thrown");
         }
     }
 
     @Test
-    void testFullDay() {
+    void testFullDayManager() {
         try {
+            DayManager dm = new DayManager();
             Day day = new Day();
             day.setCalorieTarget(1500);
             day.addMeal(new Food("Breakfast","Bagel",200));
+            dm.addDay(day.returnDate(), day);
             JsonWriter writer = new JsonWriter("./data/fullDayManager.json");
             writer.open();
-            writer.write(day);
+            writer.write(dm);
             writer.close();
 
             JsonReader reader = new JsonReader("./data/fullDayManager.json");
             String result = "Breakfast: Bagel - 200 calories";
+            LocalDate date = LocalDate.now();
 
-            day = reader.read();
+            dm = reader.read();
+            day = dm.getDay(date);
             assertEquals(LocalDate.now(),day.returnDate());
             assertEquals(1,day.numItems());
             assertEquals(1500,day.returnCalorieTarget());

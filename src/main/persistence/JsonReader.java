@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
+import model.DayManager;
 import model.Food;
 import org.json.*;
 
@@ -25,10 +26,10 @@ public class JsonReader {
 
     // EFFECTS: reads DayManager from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public Day read() throws IOException {
+    public DayManager read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseDay(jsonObject);
+        return parseDayManager(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -40,6 +41,17 @@ public class JsonReader {
         }
         return contentBuilder.toString();
     }
+
+    private DayManager parseDayManager(JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("Calendar");
+        DayManager dm = new DayManager();
+        for (Object json : jsonArray) {
+            JSONObject nextDay = (JSONObject) json;
+            dm.addDay(parseDay(nextDay).returnDate(), parseDay(nextDay));
+        }
+        return dm;
+    }
+
 
     // EFFECTS: parses Day from JSON object and returns it
     private Day parseDay(JSONObject jsonObject) {

@@ -32,15 +32,19 @@ public class DayManager {
         return calendar.containsKey(date);
     }
 
-    // TODO: tbd
-    public Map returnCal() {
-        return calendar;
+//    // TODO: tbd
+//    public Map returnCal() {
+//        return calendar;
+//    }
+
+    public int numDays() {
+        return calendar.size();
     }
 
     // EFFECTS: returns a json Object with this DayManager
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Date", daysToJson());
+        json.put("Calendar", daysToJson());
         return json;
     }
 
