@@ -18,13 +18,13 @@ public class DayManagerTest {
         dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
     }
 
-    @Test
-    void addDates() {
-        dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
-        dayManager.addDay(LocalDate.parse("2008-01-02"), new Day(LocalDate.parse("2008-01-02")));
-        dayManager.addDay(LocalDate.parse("1950-01-02"), new Day(LocalDate.parse("1950-01-02")));
-        System.out.println(dayManager.returnCal().keySet());
-    }
+//    @Test
+//    void addDates() {
+//        dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
+//        dayManager.addDay(LocalDate.parse("2008-01-02"), new Day(LocalDate.parse("2008-01-02")));
+//        dayManager.addDay(LocalDate.parse("1950-01-02"), new Day(LocalDate.parse("1950-01-02")));
+//        System.out.println(dayManager.returnCal().keySet());
+//    }
 
 
 

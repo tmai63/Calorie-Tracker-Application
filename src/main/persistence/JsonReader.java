@@ -42,6 +42,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: parses DayManager from JSON object and returns it
     private DayManager parseDayManager(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("Calendar");
         DayManager dm = new DayManager();
