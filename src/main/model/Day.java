@@ -74,7 +74,7 @@ public class Day {
         return date;
     }
 
-    //
+    // EFFECTS: returns a json Object with the fields of this Day
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("Date",date);
@@ -83,6 +83,7 @@ public class Day {
         return json;
     }
 
+    // EFFECTS: returns a Json array with meals stored in this day
     private JSONArray mealsToJson() {
         JSONArray jsonArray = new JSONArray();
 

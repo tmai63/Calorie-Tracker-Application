@@ -2,12 +2,15 @@ package ui;
 
 import model.Day;
 import model.Food;
-import model.Manager;
+import model.DayManager;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,10 +18,10 @@ import java.util.Scanner;
 // Calorie tracker application
 public class TrackerApp {
 
-    private static final String JSON_STORE = "./data/day.json";
+    private static final String JSON_STORE = "./data/calendar.json";
     private Scanner input;
-    private Day day;
-    private Manager manager;
+    private DayManager dayManager;
+    private Day currentDay;
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
 
@@ -34,8 +37,7 @@ public class TrackerApp {
         String command;
 
         init();
-
-        System.out.println(day.returnDate());
+        setDate();
 
         while (keepGoing) {
             displayMainMenu();
@@ -49,6 +51,40 @@ public class TrackerApp {
             }
         }
         System.out.println("Have a nice day!");
+    }
+
+    // MODIFIES: this, currentDay
+    // EFFECTS: gets input on the date which the user wants to make changes to
+    private void setDate() {
+        boolean keepGoing = true;
+        String date;
+        LocalDate date1;
+
+        System.out.println("Enter the date you would like to add: (YYYY-MM-DD)");
+
+        while (keepGoing) {
+            try {
+                date = input.next();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                date1 = LocalDate.parse(date, formatter);
+                setCurrentDay(date1);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid Date, please try again");
+                input.nextLine();
+            }
+        }
+    }
+
+    // MODIFIES: currentDate
+    // EFFECTS: changes the current Day
+    private void setCurrentDay(LocalDate date) {
+        if (dayManager.existsDay(date)) {
+            currentDay = dayManager.getDay(date);
+        } else {
+            currentDay = new Day(date);
+            dayManager.addDay(date, currentDay);
+        }
     }
 
     // MODIFIES: this
@@ -70,6 +106,9 @@ public class TrackerApp {
             case "s":
                 saveFoods();
                 break;
+            case "d":
+                setDate();
+                break;
             default:
                 System.out.println("Selection not valid...");
                 break;
@@ -83,19 +122,19 @@ public class TrackerApp {
         switch (meal) {
             case "b":
                 food = new Food("Breakfast", inputFoodName(), inputCalories());
-                day.addMeal(food);
+                currentDay.addMeal(food);
                 break;
             case "l":
                 food = new Food("Lunch", inputFoodName(), inputCalories());
-                day.addMeal(food);
+                currentDay.addMeal(food);
                 break;
             case "d":
                 food = new Food("Dinner", inputFoodName(), inputCalories());
-                day.addMeal(food);
+                currentDay.addMeal(food);
                 break;
             case "s":
                 food = new Food("Snack", inputFoodName(), inputCalories());
-                day.addMeal(food);
+                currentDay.addMeal(food);
                 break;
             default:
                 System.out.println("Selection not valid...");
@@ -106,9 +145,7 @@ public class TrackerApp {
     // MODIFIES: this
     // EFFECTS: initializes a new day object
     private void init() {
-        manager = new Manager();
-        day = new Day();
-        manager.addDay(day);
+        dayManager = new DayManager();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -118,8 +155,8 @@ public class TrackerApp {
     // EFFECTS: loads foods from file
     private void loadFoods() {
         try {
-            day = jsonReader.read();
-            System.out.println("Loaded " + day.returnDate() + " from " + JSON_STORE);
+            currentDay = jsonReader.read();
+            System.out.println("Loaded " + currentDay.returnDate() + " from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
@@ -129,9 +166,9 @@ public class TrackerApp {
     private void saveFoods() {
         try {
             jsonWriter.open();
-            jsonWriter.write(day);
+            jsonWriter.write(dayManager);
             jsonWriter.close();
-            System.out.println("Saved " + day.returnDate() + " to " + JSON_STORE);
+            System.out.println("Saved " + currentDay.returnDate() + " to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
@@ -139,15 +176,17 @@ public class TrackerApp {
 
     // EFFECTS: displays the main menu to the user
     private void displayMainMenu() {
+        System.out.println(currentDay.returnDate());
         System.out.println("Select From:");
         System.out.println("c -> set calorie target");
         System.out.println("e -> enter food item");
         System.out.println("v -> view current calories and foods eaten");
         System.out.println("q -> quit");
         System.out.println("l -> load data");
-        if (day.numItems() > 0) {
-            System.out.println("s -> save data");
-        }
+        System.out.println("d -> change date");
+        //if (currentDay.numItems() > 0) {
+        System.out.println("s -> save data");
+        //}
     }
 
     // EFFECTS: displays the meal menu to the user
@@ -163,18 +202,17 @@ public class TrackerApp {
     // EFFECTS: lets the user set a calorie target
     private void setCalorieTarget() {
         int calorieTarget = -1;
-        boolean keepAsking = true;
 
-        while (keepAsking) {
+        while (calorieTarget <= 0) {
+            System.out.println("Enter desired calorie target:");
             try {
-                System.out.println("Enter desired calorie target:");
                 calorieTarget = input.nextInt();
-                keepAsking = false;
+                currentDay.setCalorieTarget(calorieTarget);
             } catch (InputMismatchException e) {
-                System.out.println("Must be a number!");
+                System.out.println("Please enter a number");
+                input.nextLine();
             }
         }
-        day.setCalorieTarget(calorieTarget);
     }
 
     // MODIFIES: this
@@ -191,21 +229,37 @@ public class TrackerApp {
 
     // EFFECTS: asks user to enter name of food eaten
     private String inputFoodName() {
-        String food;
+        boolean keepAsking = true;
+        String food = "";
 
-        System.out.println("What did you eat?");
-        food = input.next();
-
+        while (keepAsking) {
+            try {
+                System.out.println("What did you eat?");
+                food = input.next();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid food name");
+                input.nextLine();
+            }
+        }
         return food;
     }
 
     // EFFECTS: asks user to enter the number of calories of the food eaten
     private int inputCalories() {
-        int calories;
+        boolean keepAsking = true;
+        int calories = -1;
 
-        System.out.println("How many calories was it?");
-        calories = input.nextInt();
-
+        while (keepAsking) {
+            try {
+                System.out.println("How many calories was it?");
+                calories = input.nextInt();
+                keepAsking = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid number");
+                input.nextLine();
+            }
+        }
         return calories;
     }
 
@@ -217,18 +271,18 @@ public class TrackerApp {
         String next = "";
 
         while (next.equals("")) {
-            System.out.println("Calorie Target: " + day.returnCalorieTarget());
-            System.out.println("Current calories: " + day.returnCalories());
-            if (day.returnCalories() > day.returnCalorieTarget()) {
+            System.out.println("Calorie Target: " + currentDay.returnCalorieTarget());
+            System.out.println("Current calories: " + currentDay.returnCalories());
+            if (currentDay.returnCalories() > currentDay.returnCalorieTarget()) {
                 System.out.println("You are over your target!");
             } else {
-                System.out.println("You can eat " + (day.returnCalorieTarget() - day.returnCalories())
+                System.out.println("You can eat " + (currentDay.returnCalorieTarget() - currentDay.returnCalories())
                         + " more calories!");
             }
-            System.out.println("Number of foods eaten today: " + day.numItems());
+            System.out.println("Number of foods eaten today: " + currentDay.numItems());
             //day.returnItems();
-            for (int i = 0; i < day.numItems(); i++) {
-                System.out.println(day.returnItem(i));
+            for (int i = 0; i < currentDay.numItems(); i++) {
+                System.out.println(currentDay.returnItem(i));
             }
 
             while (!next.equals("m")) {

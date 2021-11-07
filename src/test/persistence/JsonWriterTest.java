@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Day;
+import model.DayManager;
 import model.Food;
 import org.junit.jupiter.api.Test;
 import persistence.JsonReader;
@@ -26,18 +27,18 @@ public class JsonWriterTest {
     }
 
     @Test
-    void testEmptyDay() {
+    void testEmptyDayManager() {
         try {
-            Day day = new Day();
-            JsonWriter writer = new JsonWriter("./data/emptyDay.json");
+            DayManager dm = new DayManager();
+            JsonWriter writer = new JsonWriter("./data/emptyDayManager.json");
             writer.open();
-            writer.write(day);
+            writer.write(dm);
             writer.close();
 
 
-            JsonReader reader = new JsonReader("./data/emptyDay.json");
-            day = reader.read();
-            assertEquals(LocalDate.now(),day.returnDate());
+            JsonReader reader = new JsonReader("./data/emptyDayManager.json");
+            dm = reader.read();
+            assertEquals(LocalDate.now(),dm.returnDate());
             assertEquals(0,day.numItems());
             assertEquals(0,day.returnCalorieTarget());
         } catch (IOException e) {
@@ -51,12 +52,12 @@ public class JsonWriterTest {
             Day day = new Day();
             day.setCalorieTarget(1500);
             day.addMeal(new Food("Breakfast","Bagel",200));
-            JsonWriter writer = new JsonWriter("./data/fullDay.json");
+            JsonWriter writer = new JsonWriter("./data/fullDayManager.json");
             writer.open();
             writer.write(day);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/fullDay.json");
+            JsonReader reader = new JsonReader("./data/fullDayManager.json");
             String result = "Breakfast: Bagel - 200 calories";
 
             day = reader.read();
