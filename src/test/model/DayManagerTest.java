@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class DayManagerTest {
 
     private DayManager dayManager;
@@ -18,13 +20,14 @@ public class DayManagerTest {
         dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
     }
 
-//    @Test
-//    void addDates() {
-//        dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
-//        dayManager.addDay(LocalDate.parse("2008-01-02"), new Day(LocalDate.parse("2008-01-02")));
-//        dayManager.addDay(LocalDate.parse("1950-01-02"), new Day(LocalDate.parse("1950-01-02")));
-//        System.out.println(dayManager.returnCal().keySet());
-//    }
+    @Test
+    void addDates() {
+        dayManager.addDay(LocalDate.parse("2020-01-02"), new Day(LocalDate.parse("2020-01-02")));
+        dayManager.addDay(LocalDate.parse("2008-01-02"), new Day(LocalDate.parse("2008-01-02")));
+        dayManager.addDay(LocalDate.parse("1950-01-02"), new Day(LocalDate.parse("1950-01-02")));
+        //System.out.println(dayManager.returnCal().keySet());
+        assertTrue(dayManager.existsDay(LocalDate.parse("1950-01-02")));
+    }
 
 
 

@@ -13,9 +13,10 @@ your meals throughout the day. Keep a record of your food
 history and view your progress!
 
 ## User Stores:
-- As a user, I want to be able to add a food I ate to the list of foods eaten today
-- As a user, I want to be able to set a calorie target
+- As a user, I want to be able to track the foods I have eaten over multiple days
+- As a user, I want to be able to add a food I ate to the list of foods eaten on a select day
+- As a user, I want to be able to set a calorie target for that day
 - As a user, I want to be able to see total calories I have eaten today
 - As a user, I want to be able to see how many more calories I can consume and remain below my target
-- As a user, I want to be able to save the foods I have eaten today
+- As a user, I want to be able to save the foods I have eaten
 - As a user, I want to be able to load the foods I have eaten previously
