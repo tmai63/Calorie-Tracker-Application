@@ -3,13 +3,13 @@
 ## Keep track of what you have been eating and calories!
 
 Some of the program's functions:
+- **Track your meals**
 - **Set your daily calorie target**
-- **Enter what you have had for each food today**
 - **View your eating history**
 
 This app will be great for people trying to stay healthy or 
 are on a diet. Set your calorie targets and keep track of
-your meals throughout the day. Keep a record of your food
+your meals throughout multiple days. Keep a record of your food
 history and view your progress!
 
 ## User Stores:
