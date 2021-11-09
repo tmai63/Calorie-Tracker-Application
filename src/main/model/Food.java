@@ -12,8 +12,8 @@ public class Food {
     protected int calories;     // number of calories
     protected String foodName;  // name of the food
     protected String mealType;  // which meal this food was for
-    private LocalDate today;
-    protected String date;
+    protected int mealOrder; // used to sort order when added to day: breakfast - 1, lunch - 2, dinner - 3, snack - 4
+
 
 
     // REQUIRES: mealType to be one of: "Breakfast", "Lunch", "Dinner", or "Snack"
@@ -25,7 +25,20 @@ public class Food {
         this.mealType = mealType;
         this.foodName = foodName;
         this.calories = calories;
-        //today = LocalDate.now();
+        switch (mealType) {
+            case "Breakfast":
+                this.mealOrder = 1;
+                break;
+            case "Lunch":
+                this.mealOrder = 2;
+                break;
+            case "Dinner":
+                this.mealOrder = 3;
+                break;
+            case "Snack":
+                this.mealOrder = 4;
+                break;
+        }
     }
 
     // EFFECTS: returns the number of calories
@@ -41,6 +54,11 @@ public class Food {
     // EFFECTS: returns the meal the food was eaten for
     public String getFoodType() {
         return mealType;
+    }
+
+    // EFFECTS: returns mealOrder for sorting
+    public int getMealOrder() {
+        return mealOrder;
     }
 
     // EFFECTS: returns a list of json objects

@@ -108,21 +108,20 @@ public class TrackerAppUI extends JPanel {
         rightPane.add(currentDate);
         rightPane.add(currentCalories);
 
-
         // Create main panel
         JPanel mainPanel = new JPanel();
         mainPanel.add(buttonPane);
         mainPanel.add(rightPane);
-
 
         // Display main panel
         add(mainPanel);
     }
 
 
+
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("ListDemo");
+        JFrame frame = new JFrame("Calorie Tracker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(0,0,500,500);
         frame.setResizable(false);

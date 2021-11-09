@@ -3,9 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDate;
 
 
@@ -32,6 +30,7 @@ public class Day {
     // EFFECTS: adds a food item to the list of foods
     public void addMeal(Food food) {
         foods.add(food);
+        sortFoods();
     }
 
     // EFFECTS: loops through the food list and returns the sum of total calories
@@ -74,9 +73,13 @@ public class Day {
         return date;
     }
 
-    // EFFECTS: returns the list of foods stored in this day
-    public List returnFoods() {
-        return foods;
+    // EFFECTS: sorts foods by meal - breakfast -> lunch -> dinner ->
+    public void sortFoods() {
+        Collections.sort(foods, Comparator.comparing(Food::getMealOrder));
+    }
+
+    public void removeItem(int index) {
+        foods.remove(index);
     }
 
     // EFFECTS: returns a json Object with the fields of this Day
