@@ -74,6 +74,11 @@ public class Day {
         return date;
     }
 
+    // EFFECTS: returns the list of foods stored in this day
+    public List returnFoods() {
+        return foods;
+    }
+
     // EFFECTS: returns a json Object with the fields of this Day
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

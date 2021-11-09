@@ -1,5 +1,8 @@
 package ui;
 
+import model.Day;
+import model.Food;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,15 +20,34 @@ public class TrackerAppUI extends JPanel {
     public TrackerAppUI() {
         super(new BorderLayout());
 
-        //Create buttons
+        // Create buttons
         setCaloriesButton = new JButton(setCaloriesString);
         setCaloriesButton.setActionCommand(setCaloriesString);
         enterFoodButton = new JButton(enterFoodString);
         enterFoodButton.setActionCommand(enterFoodString);
 
+        // Create list
+        listModel = new DefaultListModel();
+        Day day = new Day();
+        Food bfast = new Food("Breakfast","Eggs",200);
+        Food lunch = new Food("Lunch","Sandwich",500);
+        Food dinner = new Food("Dinner","Steak",800);
+        day.addMeal(bfast);
+        day.addMeal(lunch);
+        day.addMeal(dinner);
+
+        for (int i = 0; i < day.numItems(); i++) {
+            listModel.addElement(day.returnItem(i));
+        }
+
+        list = new JList(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.setVisibleRowCount(5);
+        JScrollPane listScrollPane = new JScrollPane(list);
 
 
-        //Create a panel that uses BoxLayout.
+        // Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.PAGE_AXIS));
         buttonPane.add(setCaloriesButton);
@@ -33,11 +55,13 @@ public class TrackerAppUI extends JPanel {
         buttonPane.add(new JSeparator(SwingConstants.HORIZONTAL));
         buttonPane.add(Box.createVerticalStrut(5));
         buttonPane.add(enterFoodButton);
+        //buttonPane.add(listScrollPane);
 
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
         //add(listScrollPane, BorderLayout.CENTER);
         add(buttonPane, BorderLayout.PAGE_END);
+        add(listScrollPane);
     }
 
 
