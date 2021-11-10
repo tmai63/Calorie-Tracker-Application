@@ -78,6 +78,7 @@ public class Day {
         Collections.sort(foods, Comparator.comparing(Food::getMealOrder));
     }
 
+    // EFFECTS: removes the item at index
     public void removeItem(int index) {
         foods.remove(index);
     }
