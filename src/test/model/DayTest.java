@@ -49,4 +49,12 @@ public class DayTest {
         assertEquals(result, day.returnItem(0));
     }
 
+    @Test
+    void testRemoveItems() {
+        day.addMeal(hamburger);
+        day.addMeal(steak);
+        day.removeItem(1);
+        assertEquals(1,day.numItems());
+    }
+
 }

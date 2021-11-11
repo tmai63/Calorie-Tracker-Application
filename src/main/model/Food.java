@@ -25,19 +25,14 @@ public class Food {
         this.mealType = mealType;
         this.foodName = foodName;
         this.calories = calories;
-        switch (mealType) {
-            case "Breakfast":
-                this.mealOrder = 1;
-                break;
-            case "Lunch":
-                this.mealOrder = 2;
-                break;
-            case "Dinner":
-                this.mealOrder = 3;
-                break;
-            case "Snack":
-                this.mealOrder = 4;
-                break;
+        if (mealType.equals("Breakfast")) {
+           mealOrder = 1;
+        } else if (mealType.equals("Lunch")) {
+            mealOrder = 2;
+        } else if (mealType.equals("Dinner")) {
+            mealOrder = 3;
+        } else if (mealType.equals("Snack")) {
+            mealOrder = 4;
         }
     }
 
