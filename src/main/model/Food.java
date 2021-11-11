@@ -1,10 +1,6 @@
 package model;
 
 import org.json.JSONObject;
-import java.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 // Represents a food having a meal type (breakfast, lunch, etc.), name of the food, and number of calories
 public class Food {
@@ -13,7 +9,6 @@ public class Food {
     protected String foodName;  // name of the food
     protected String mealType;  // which meal this food was for
     protected int mealOrder; // used to sort order when added to day: breakfast - 1, lunch - 2, dinner - 3, snack - 4
-
 
 
     // REQUIRES: mealType to be one of: "Breakfast", "Lunch", "Dinner", or "Snack"
@@ -26,7 +21,7 @@ public class Food {
         this.foodName = foodName;
         this.calories = calories;
         if (mealType.equals("Breakfast")) {
-           mealOrder = 1;
+            mealOrder = 1;
         } else if (mealType.equals("Lunch")) {
             mealOrder = 2;
         } else if (mealType.equals("Dinner")) {
@@ -61,7 +56,7 @@ public class Food {
         JSONObject json = new JSONObject();
         json.put("Meal", mealType);
         json.put("Name", foodName);
-        json.put("Calories",calories);
+        json.put("Calories", calories);
         //json.put("Date Eaten",today);
         return json;
     }
