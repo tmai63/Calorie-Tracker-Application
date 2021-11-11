@@ -72,7 +72,7 @@ public class TrackerAppGUI extends JPanel {
 
     private JSpinner mealSelector;
 
-    @SuppressWarnings("checkstyle:MethodLength")
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     public TrackerAppGUI() {
         super(new BorderLayout());
 
@@ -264,7 +264,9 @@ public class TrackerAppGUI extends JPanel {
         ImageIcon image = new ImageIcon("./data/splashart.jpg");
         splash = new JLabel(image);
         loadingPanel.add(loadingText);
+        loadingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         loadingPanel.add(splash);
+        loadingPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         loadingPanel.add(startApp);
         loadingScreen.add(loadingPanel);
         loadingScreen.pack();
@@ -412,7 +414,7 @@ public class TrackerAppGUI extends JPanel {
         }
 
         //Required by ActionListener.
-        @SuppressWarnings("checkstyle:MethodLength")
+        @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
         public void actionPerformed(ActionEvent e) {
             String input;
 
@@ -585,7 +587,7 @@ public class TrackerAppGUI extends JPanel {
         }
 
         //Required by ActionListener.
-        @SuppressWarnings("checkstyle:MethodLength")
+        @SuppressWarnings({"checkstyle:SuppressWarnings", "checkstyle:MethodLength"})
         public void actionPerformed(ActionEvent e) {
             String type;
             String name;
