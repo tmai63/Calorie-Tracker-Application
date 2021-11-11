@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class TrackerAppGUI extends JPanel {
 
     private static JFrame mainFrame;
+    private JLabel splash;
     private JList list;
     private DefaultListModel listModel;
 
@@ -34,6 +35,7 @@ public class TrackerAppGUI extends JPanel {
     private static final String quitString = "Quit";
     private static final String setDateString = "Set Date";
     private static final String removeMealString = "Remove";
+    private static final String startAppString = "Continue";
 
     private JButton setCaloriesButton;
     private JButton enterFoodButton;
@@ -42,6 +44,7 @@ public class TrackerAppGUI extends JPanel {
     private JButton quitButton;
     private JButton setDateButton;
     private JButton removeMeal;
+    private JButton startApp;
 
     private JLabel currentDate;
     private JLabel currentCalories;
@@ -61,13 +64,13 @@ public class TrackerAppGUI extends JPanel {
     private JFrame calorieTargetFrame;
     private JFrame foodsFrame;
     private JFrame setDateFrame;
+    private JFrame loadingScreen;
 
     private JPanel calorieTargetPanel;
     private JPanel foodsPanel;
     private JPanel setDatePanel;
 
     private JSpinner mealSelector;
-
 
     @SuppressWarnings("checkstyle:MethodLength")
     public TrackerAppGUI() {
@@ -249,6 +252,24 @@ public class TrackerAppGUI extends JPanel {
         rightPane.add(currentCalories);
         rightPane.add(calorieTarget);
 
+        // Create background frame
+        loadingScreen = new JFrame();
+        loadingScreen.setBounds(600,0,50,50);
+        JPanel loadingPanel = new JPanel();
+        loadingPanel.setLayout(new BoxLayout(loadingPanel, BoxLayout.PAGE_AXIS));
+        JLabel loadingText = new JLabel("Welcome to Calorie Tracker!");
+        startApp = new JButton(startAppString);
+        startApp.setActionCommand(startAppString);
+        startApp.addActionListener(new StartApp());
+        ImageIcon image = new ImageIcon("./data/splashart.jpg");
+        splash = new JLabel(image);
+        loadingPanel.add(loadingText);
+        loadingPanel.add(splash);
+        loadingPanel.add(startApp);
+        loadingScreen.add(loadingPanel);
+        loadingScreen.pack();
+        loadingScreen.setVisible(true);
+
         // Create main panel
         JPanel mainPanel = new JPanel();
         mainPanel.add(buttonPane);
@@ -256,6 +277,16 @@ public class TrackerAppGUI extends JPanel {
 
         // Display main panel
         add(mainPanel);
+    }
+
+    // Opens a new panel when set calories button is pressed on main screen
+    class StartApp implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            // Display the window
+            calorieTargetFrame.pack();
+            loadingScreen.setVisible(false);
+            mainFrame.setVisible(true);
+        }
     }
 
     // Opens a new panel when set calories button is pressed on main screen
@@ -636,7 +667,6 @@ public class TrackerAppGUI extends JPanel {
 
     // Opens a new panel when add meal is pressed on main screen
     class AddMealPanel implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             // Display the window
             foodsFrame.pack();
@@ -646,18 +676,16 @@ public class TrackerAppGUI extends JPanel {
 
     // Opens a new panel when set calories button is pressed on main screen
     class QuitApplication implements ActionListener {
-
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
     }
 
     private static void createAndShowGUI() {
-
         //Create and set up the window.
         mainFrame = new JFrame("Calorie Tracker");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(800, 400, 800, 800);
+        mainFrame.setBounds(600, 200, 800, 800);
         mainFrame.setResizable(true);
 
         //Create and set up the content pane.
@@ -665,34 +693,7 @@ public class TrackerAppGUI extends JPanel {
         newContentPane.setOpaque(true); //content panes must be opaque
         mainFrame.setContentPane(newContentPane);
 
-        //Display the window.
         mainFrame.pack();
-        mainFrame.setVisible(true);
-    }
-
-    private static void createSplash() {
-        // create image
-        JWindow splash = new JWindow();
-        ImageIcon image = new ImageIcon("/Users/thomsonmai/Documents/School/CS/CPSC 210/project_o5a7r/data/tobs.jpg");
-        JLabel tobs = new JLabel(image);
-        splash.getContentPane().add(new JLabel(new ImageIcon("./data/tobs.jpg")));
-        splash.setBounds(800, 400, 972, 648);
-        splash.add(tobs);
-
-        //Create and set up the content pane.
-        JComponent newContentPane = new TrackerAppGUI();
-        newContentPane.setOpaque(true); //content panes must be opaque
-        splash.setContentPane(newContentPane);
-
-        splash.pack();
-        splash.setVisible(true);
-        //Timer
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        splash.setVisible(false);
     }
 
     public static void main(String[] args) {
