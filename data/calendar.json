@@ -1,11 +1,23 @@
 {"Calendar": [
     {
         "Calorie Target": 2500,
-        "Meals": [{
-            "Meal": "Lunch",
-            "Calories": 600,
-            "Name": "chinese"
-        }],
+        "Meals": [
+            {
+                "Meal": "Breakfast",
+                "Calories": 500,
+                "Name": "cereal"
+            },
+            {
+                "Meal": "Lunch",
+                "Calories": 600,
+                "Name": "chinese"
+            },
+            {
+                "Meal": "Snack",
+                "Calories": 300,
+                "Name": "ice cream"
+            }
+        ],
         "Date": "2020-11-06"
     },
     {

@@ -80,7 +80,7 @@ public class Day {
 
     // EFFECTS: removes the item at index
     public void removeItem(int index) {
-        foods.remove(index);
+        foods.remove(index - 1);
     }
 
     // EFFECTS: returns a json Object with the fields of this Day

@@ -33,6 +33,7 @@ public class TrackerAppGUI extends JPanel {
     private static final String loadString = "Load Data";
     private static final String quitString = "Quit";
     private static final String setDateString = "Set Date";
+    private static final String removeMealString = "Remove";
 
     private JButton setCaloriesButton;
     private JButton enterFoodButton;
@@ -40,6 +41,7 @@ public class TrackerAppGUI extends JPanel {
     private JButton loadButton;
     private JButton quitButton;
     private JButton setDateButton;
+    private JButton removeMeal;
 
     private JLabel currentDate;
     private JLabel currentCalories;
@@ -67,9 +69,11 @@ public class TrackerAppGUI extends JPanel {
     private JSpinner mealSelector;
 
 
+    @SuppressWarnings("checkstyle:MethodLength")
     public TrackerAppGUI() {
         super(new BorderLayout());
 
+        // Initialization of classes
         currentDay = new Day();
         dayManager = new DayManager();
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -94,6 +98,9 @@ public class TrackerAppGUI extends JPanel {
         setDateButton = new JButton(setDateString);
         setDateButton.setActionCommand(setDateString);
         setDateButton.addActionListener(new SetDatePanel());
+        removeMeal = new JButton(removeMealString);
+        removeMeal.setActionCommand(removeMealString);
+        removeMeal.addActionListener(new RemoveMeal(removeMeal));
 
         // Create list
         listModel = new DefaultListModel();
@@ -235,7 +242,9 @@ public class TrackerAppGUI extends JPanel {
         JPanel rightPane = new JPanel();
         rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
         rightPane.add(listScrollPane);
-        rightPane.add(Box.createRigidArea(new Dimension(0, 50)));
+        rightPane.add(Box.createRigidArea(new Dimension(0, 20)));
+        rightPane.add(removeMeal);
+        rightPane.add(Box.createRigidArea(new Dimension(0, 20)));
         rightPane.add(currentDate);
         rightPane.add(currentCalories);
         rightPane.add(calorieTarget);
@@ -259,6 +268,7 @@ public class TrackerAppGUI extends JPanel {
         }
     }
 
+    // Lets user save data when button is pressed
     class SaveData implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
@@ -272,6 +282,7 @@ public class TrackerAppGUI extends JPanel {
         }
     }
 
+    // Lets user load the data when button is pressed
     class LoadData implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -284,7 +295,82 @@ public class TrackerAppGUI extends JPanel {
         }
     }
 
-    // Class to set calories when button is pressed
+    // Removes meal from selected index
+    class RemoveMeal implements ActionListener, DocumentListener {
+        private boolean alreadyEnabled = false;
+        private JButton button;
+
+        public RemoveMeal(JButton button) {
+            this.button = button;
+        }
+
+        //Required by ActionListener.
+        public void actionPerformed(ActionEvent e) {
+
+            int index = list.getSelectedIndex(); //get selected index
+            if (index == -1) { //no selection, so insert at beginning
+                index = 0;
+            } else {           //add after the selected item
+                index++;
+            }
+
+            currentDay.removeItem(index);
+            // clears list
+            listModel.removeAllElements();
+            // add the food to list
+            for (int i = 0; i < currentDay.numItems(); i++) {
+                listModel.addElement(currentDay.returnItem(i));
+            }
+
+            currentCalories.setText("Current Calories:" + currentDay.returnCalories());
+
+            //Select the new item and make it visible.
+            list.setSelectedIndex(index);
+            list.ensureIndexIsVisible(index);
+        }
+
+        //This method tests for string equality. You could certainly
+        //get more sophisticated about the algorithm.  For example,
+        //you might want to ignore white space and capitalization.
+        protected boolean alreadyInList(String name) {
+            return listModel.contains(name);
+        }
+
+        //Required by DocumentListener.
+        public void insertUpdate(DocumentEvent e) {
+            enableButton();
+        }
+
+        //Required by DocumentListener.
+        public void removeUpdate(DocumentEvent e) {
+            handleEmptyTextField(e);
+        }
+
+        //Required by DocumentListener.
+        public void changedUpdate(DocumentEvent e) {
+            if (!handleEmptyTextField(e)) {
+                enableButton();
+            }
+        }
+
+        private void enableButton() {
+            if (!alreadyEnabled) {
+                button.setEnabled(true);
+            }
+        }
+
+        private boolean handleEmptyTextField(DocumentEvent e) {
+            if (e.getDocument().getLength() <= 0) {
+                button.setEnabled(false);
+                alreadyEnabled = false;
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+    // Class to date when button is pressed
     class SetDate implements ActionListener, DocumentListener {
 
         private JButton button;
