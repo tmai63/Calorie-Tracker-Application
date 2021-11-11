@@ -1,6 +1,7 @@
 package ui;
 
 import model.Day;
+import model.DayManager;
 import model.Food;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class TrackerAppGUI extends JPanel {
@@ -22,36 +24,45 @@ public class TrackerAppGUI extends JPanel {
     private static final String saveString = "Save Data";
     private static final String loadString = "Load Data";
     private static final String quitString = "Quit";
+    private static final String setDateString = "Set Date";
 
     private JButton setCaloriesButton;
     private JButton enterFoodButton;
     private JButton saveButton;
     private JButton loadButton;
     private JButton quitButton;
+    private JButton setDateButton;
 
     private JLabel currentDate;
     private JLabel currentCalories;
     private JLabel calorieTarget;
     private JLabel calorieTargetPanelText;
     private JLabel foodPanelText;
+    private JLabel setDateText;
 
     private JTextField calorieTargetInput;
     private JTextField mealName;
     private JTextField mealCalories;
+    private JTextField setDateField;
 
     private Day currentDay;
+    private DayManager dayManager;
 
     private JFrame calorieTargetFrame;
     private JFrame foodsFrame;
+    private JFrame setDateFrame;
 
     private JPanel calorieTargetPanel;
     private JPanel foodsPanel;
+    private JPanel setDatePanel;
 
     private JSpinner mealSelector;
 
 
     public TrackerAppGUI() {
         super(new BorderLayout());
+
+        dayManager = new DayManager();
 
         // Create buttons
         setCaloriesButton = new JButton(setCaloriesString);
@@ -67,27 +78,13 @@ public class TrackerAppGUI extends JPanel {
         quitButton = new JButton(quitString);
         quitButton.setActionCommand(quitString);
         quitButton.addActionListener(new QuitApplication());
+        setDateButton = new JButton(setDateString);
+        setDateButton.setActionCommand(setDateString);
+        setDateButton.addActionListener(new SetDatePanel());
 
         // Create list
         listModel = new DefaultListModel();
         currentDay = new Day();
-        Food bfast = new Food("Breakfast", "Eggs", 200);
-        Food bfast2 = new Food("Breakfast", "Sausages", 150);
-        Food lunch = new Food("Lunch", "Sandwich", 500);
-        Food lunch2 = new Food("Lunch", "Fries", 200);
-        Food dinner = new Food("Dinner", "Steak", 800);
-        Food snack = new Food("Snack", "Chips", 100);
-        currentDay.addMeal(bfast);
-        currentDay.addMeal(bfast2);
-        currentDay.addMeal(lunch);
-        currentDay.addMeal(lunch2);
-        currentDay.addMeal(dinner);
-        currentDay.addMeal(snack);
-        currentDay.setCalorieTarget(1500);
-
-        for (int i = 0; i < currentDay.numItems(); i++) {
-            listModel.addElement(currentDay.returnItem(i));
-        }
 
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -97,14 +94,15 @@ public class TrackerAppGUI extends JPanel {
 
         // Create textField
         currentDate = new JLabel();
-        currentDate.setText("Selected Date: " + (LocalDate.now().toString()));
+        currentDate.setText("Selected Date: ");
         currentCalories = new JLabel();
-        currentCalories.setText("Current Calories: " + currentDay.returnCalories());
+        currentCalories.setText("Current Calories:");
         calorieTarget = new JLabel();
         calorieTarget.setText("Calorie Target: " + currentDay.returnCalorieTarget());
 
         // Create new frame to enter calorieTarget
         calorieTargetFrame = new JFrame();
+        calorieTargetFrame.setBounds(800, 400, 800, 800);
         calorieTargetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         calorieTargetPanel = new JPanel();
         calorieTargetPanel.setLayout(new BoxLayout(calorieTargetPanel, BoxLayout.PAGE_AXIS));
@@ -119,8 +117,25 @@ public class TrackerAppGUI extends JPanel {
         calorieTargetPanel.add(calorieTargetSetButton);
         calorieTargetFrame.add(calorieTargetPanel);
 
+        // Create new frame to set date
+        setDateFrame = new JFrame();
+        setDateFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDateFrame.setBounds(800, 400, 800, 800);
+        setDatePanel = new JPanel();
+        setDatePanel.setLayout(new BoxLayout(setDatePanel, BoxLayout.PAGE_AXIS));
+        setDateText = new JLabel("Enter date in YYYY-MM-DD format");
+        setDateField = new JTextField();
+        JButton setDateButtonFrame = new JButton(setDateString);
+        setDateButtonFrame.setActionCommand(setDateString);
+        setDateButtonFrame.addActionListener(new SetDate(setDateButtonFrame));
+        setDatePanel.add(setDateText);
+        setDatePanel.add(setDateField);
+        setDatePanel.add(setDateButtonFrame);
+        setDateFrame.add(setDatePanel);
+
         // Create new frame to enter foods
         foodsFrame = new JFrame();
+        foodsFrame.setBounds(800, 400, 800, 800);
         foodsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         foodsPanel = new JPanel();
         foodsPanel.setLayout(new BoxLayout(foodsPanel, BoxLayout.PAGE_AXIS));
@@ -182,6 +197,10 @@ public class TrackerAppGUI extends JPanel {
         buttonPane.add(Box.createVerticalStrut(5));
         buttonPane.add(new JSeparator(SwingConstants.HORIZONTAL));
         buttonPane.add(Box.createVerticalStrut(5));
+        buttonPane.add(setDateButton);
+        buttonPane.add(Box.createVerticalStrut(5));
+        buttonPane.add(new JSeparator(SwingConstants.HORIZONTAL));
+        buttonPane.add(Box.createVerticalStrut(5));
         buttonPane.add(enterFoodButton);
         buttonPane.add(Box.createVerticalStrut(5));
         buttonPane.add(new JSeparator(SwingConstants.HORIZONTAL));
@@ -225,6 +244,94 @@ public class TrackerAppGUI extends JPanel {
             // Display the window
             calorieTargetFrame.pack();
             calorieTargetFrame.setVisible(true);
+        }
+    }
+
+    // Class to set calories when button is pressed
+    class SetDate implements ActionListener, DocumentListener {
+
+        private JButton button;
+        private boolean alreadyEnabled = false;
+
+        public SetDate(JButton button) {
+            this.button = button;
+        }
+
+        //Required by ActionListener.
+        public void actionPerformed(ActionEvent e) {
+            String input;
+
+            input = setDateField.getText();
+
+            try {
+                LocalDate date = LocalDate.parse(input);
+
+                if (dayManager.existsDay(date)) {
+                    currentDay = dayManager.getDay(date);
+                    // clear list
+                    listModel.removeAllElements();
+                    // add the food to list
+                    for (int i = 0; i < currentDay.numItems(); i++) {
+                        listModel.addElement(currentDay.returnItem(i));
+                    }
+                    calorieTarget.setText("Calorie Target: " + currentDay.returnCalorieTarget());
+                    currentDate.setText("Selected Date: " + currentDay.returnDate());
+                    currentCalories.setText("Current Calories:" + currentDay.returnCalories());
+                    mainFrame.pack();
+                } else {
+                    currentDay = new Day(date);
+                    dayManager.addDay(date, currentDay);
+                    // clears list
+                    listModel.removeAllElements();
+                    // add the food to list
+                    for (int i = 0; i < currentDay.numItems(); i++) {
+                        listModel.addElement(currentDay.returnItem(i));
+                    }
+                    calorieTarget.setText("Calorie Target: " + currentDay.returnCalorieTarget());
+                    currentDate.setText("Selected Date: " + currentDay.returnDate());
+                    currentCalories.setText("Current Calories:" + currentDay.returnCalories());
+                    mainFrame.pack();
+                }
+            } catch (NumberFormatException inputMismatchException) {
+                setDateText.setText("Invalid Date!");
+                Toolkit.getDefaultToolkit().beep();
+                setDateField.requestFocusInWindow();
+                setDateField.selectAll();
+            }
+        }
+
+        //Required by DocumentListener.
+        public void insertUpdate(DocumentEvent e) {
+            enableButton();
+        }
+
+        //Required by DocumentListener.
+        public void removeUpdate(DocumentEvent e) {
+            handleEmptyTextField(e);
+        }
+
+        //Required by DocumentListener.
+        public void changedUpdate(DocumentEvent e) {
+            if (!handleEmptyTextField(e)) {
+                enableButton();
+            }
+        }
+
+        // Enable the button
+        private void enableButton() {
+            if (!alreadyEnabled) {
+                button.setEnabled(true);
+            }
+        }
+
+        // Handles error if textField is empty
+        private boolean handleEmptyTextField(DocumentEvent e) {
+            if (e.getDocument().getLength() <= 0) {
+                button.setEnabled(false);
+                alreadyEnabled = false;
+                return true;
+            }
+            return false;
         }
     }
 
@@ -302,7 +409,17 @@ public class TrackerAppGUI extends JPanel {
         }
     }
 
-    // Class to set calories when button is pressed
+    // Opens a new panel when set calories button is pressed on main screen
+    class SetDatePanel implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            // Display the window
+            setDateFrame.pack();
+            setDateFrame.setVisible(true);
+        }
+    }
+
+    // Class to add meals when button is pressed
     class AddMealButton implements ActionListener, DocumentListener {
 
         private JButton button;
@@ -411,10 +528,11 @@ public class TrackerAppGUI extends JPanel {
     }
 
     private static void createAndShowGUI() {
+
         //Create and set up the window.
         mainFrame = new JFrame("Calorie Tracker");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(0, 0, 500, 500);
+        mainFrame.setBounds(800, 400, 800, 800);
         mainFrame.setResizable(true);
 
         //Create and set up the content pane.
@@ -427,11 +545,37 @@ public class TrackerAppGUI extends JPanel {
         mainFrame.setVisible(true);
     }
 
+    private static void createSplash() {
+        // create image
+        JWindow splash = new JWindow();
+        ImageIcon image = new ImageIcon("/Users/thomsonmai/Documents/School/CS/CPSC 210/project_o5a7r/data/tobs.jpg");
+        JLabel tobs = new JLabel(image);
+        splash.getContentPane().add(new JLabel(new ImageIcon("./data/tobs.jpg")));
+        splash.setBounds(800, 400, 972, 648);
+        splash.add(tobs);
+
+        //Create and set up the content pane.
+        JComponent newContentPane = new TrackerAppGUI();
+        newContentPane.setOpaque(true); //content panes must be opaque
+        splash.setContentPane(newContentPane);
+
+        splash.pack();
+        splash.setVisible(true);
+        //Timer
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        splash.setVisible(false);
+    }
+
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                //createSplash();
                 createAndShowGUI();
             }
         });
