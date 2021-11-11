@@ -9,6 +9,11 @@
         "Date": "2020-11-06"
     },
     {
+        "Calorie Target": 0,
+        "Meals": [],
+        "Date": "2021-11-04"
+    },
+    {
         "Calorie Target": 2000,
         "Meals": [{
             "Meal": "Dinner",
@@ -16,5 +21,19 @@
             "Name": "hamburger"
         }],
         "Date": "2021-11-05"
+    },
+    {
+        "Calorie Target": 0,
+        "Meals": [],
+        "Date": "2021-11-06"
+    },
+    {
+        "Calorie Target": 0,
+        "Meals": [{
+            "Meal": "Breakfast",
+            "Calories": 500,
+            "Name": "cereal"
+        }],
+        "Date": "2021-11-10"
     }
 ]}

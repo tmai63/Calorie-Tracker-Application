@@ -3,6 +3,8 @@ package ui;
 import model.Day;
 import model.DayManager;
 import model.Food;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,6 +12,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -18,6 +21,11 @@ public class TrackerAppGUI extends JPanel {
     private static JFrame mainFrame;
     private JList list;
     private DefaultListModel listModel;
+
+    private static final String JSON_STORE = "./data/calendar.json";
+
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
 
     private static final String setCaloriesString = "Set Calories";
     private static final String enterFoodString = "Enter Food Item";
@@ -62,7 +70,10 @@ public class TrackerAppGUI extends JPanel {
     public TrackerAppGUI() {
         super(new BorderLayout());
 
+        currentDay = new Day();
         dayManager = new DayManager();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         // Create buttons
         setCaloriesButton = new JButton(setCaloriesString);
@@ -73,8 +84,10 @@ public class TrackerAppGUI extends JPanel {
         enterFoodButton.addActionListener(new AddMealPanel());
         saveButton = new JButton(saveString);
         saveButton.setActionCommand(saveString);
+        saveButton.addActionListener(new SaveData());
         loadButton = new JButton(loadString);
         loadButton.setActionCommand(loadString);
+        loadButton.addActionListener(new LoadData());
         quitButton = new JButton(quitString);
         quitButton.setActionCommand(quitString);
         quitButton.addActionListener(new QuitApplication());
@@ -84,13 +97,12 @@ public class TrackerAppGUI extends JPanel {
 
         // Create list
         listModel = new DefaultListModel();
-        currentDay = new Day();
 
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
         JScrollPane listScrollPane = new JScrollPane(list);
-        listScrollPane.setBounds(10,10,300,500);
+        listScrollPane.setBounds(10, 10, 300, 500);
 
         // Create textField
         currentDate = new JLabel();
@@ -223,7 +235,7 @@ public class TrackerAppGUI extends JPanel {
         JPanel rightPane = new JPanel();
         rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
         rightPane.add(listScrollPane);
-        rightPane.add(Box.createRigidArea(new Dimension(0,50)));
+        rightPane.add(Box.createRigidArea(new Dimension(0, 50)));
         rightPane.add(currentDate);
         rightPane.add(currentCalories);
         rightPane.add(calorieTarget);
@@ -247,6 +259,31 @@ public class TrackerAppGUI extends JPanel {
         }
     }
 
+    class SaveData implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                jsonWriter.open();
+                jsonWriter.write(dayManager);
+                jsonWriter.close();
+                System.out.println("Saved data to " + JSON_STORE);
+            } catch (FileNotFoundException fileNotFoundException) {
+                System.out.println("Unable to write to file: " + JSON_STORE);
+            }
+        }
+    }
+
+    class LoadData implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                dayManager = jsonReader.read();
+                System.out.println("Loaded data from " + JSON_STORE);
+            } catch (IOException ioException) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
+            }
+        }
+    }
+
     // Class to set calories when button is pressed
     class SetDate implements ActionListener, DocumentListener {
 
@@ -258,6 +295,7 @@ public class TrackerAppGUI extends JPanel {
         }
 
         //Required by ActionListener.
+        @SuppressWarnings("checkstyle:MethodLength")
         public void actionPerformed(ActionEvent e) {
             String input;
 
@@ -430,6 +468,7 @@ public class TrackerAppGUI extends JPanel {
         }
 
         //Required by ActionListener.
+        @SuppressWarnings("checkstyle:MethodLength")
         public void actionPerformed(ActionEvent e) {
             String type;
             String name;
@@ -443,7 +482,7 @@ public class TrackerAppGUI extends JPanel {
 
                 if (cals >= 0 && name != "") {
                     //Reset the text field.
-                    food = new Food(type,name,cals);
+                    food = new Food(type, name, cals);
                     currentDay.addMeal(food);
                     currentCalories.setText("Current Calories: " + currentDay.returnCalories());
 
