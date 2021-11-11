@@ -95,11 +95,9 @@ public class Day {
     // EFFECTS: returns a Json array with meals stored in this day
     private JSONArray mealsToJson() {
         JSONArray jsonArray = new JSONArray();
-
         for (Food f: foods) {
             jsonArray.put(f.toJson());
         }
-
         return jsonArray;
     }
 }

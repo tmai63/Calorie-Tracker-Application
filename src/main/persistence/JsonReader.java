@@ -42,7 +42,8 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses DayManager from JSON object and returns it
+    // MODIFIES: DayManager
+    // EFFECTS: creates DayManager from JSON object and returns it
     private DayManager parseDayManager(JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("Calendar");
         DayManager dm = new DayManager();
@@ -53,8 +54,8 @@ public class JsonReader {
         return dm;
     }
 
-
-    // EFFECTS: parses Day from JSON object and returns it
+    // MODIFIES: Day
+    // EFFECTS: creates each Day from the JSONArray parsed from DayManager
     private Day parseDay(JSONObject jsonObject) {
         String date = jsonObject.getString("Date");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -75,7 +76,7 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: Day
+    // MODIFIES: Food, Day
     // EFFECTS: creates food from JSON object and adds them to Day
     private void addFood(Day day, JSONObject jsonObject) {
         String meal = jsonObject.getString("Meal");

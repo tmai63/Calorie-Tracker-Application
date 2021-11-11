@@ -27,16 +27,12 @@ public class DayManager {
         return calendar.get(date);
     }
 
-    // EFFECTS: returns if a Day object is associated with the date
+    // EFFECTS: returns true if a Day object is associated with the date
     public boolean existsDay(LocalDate date) {
         return calendar.containsKey(date);
     }
 
-//    // TODO: tbd
-//    public Map returnCal() {
-//        return calendar;
-//    }
-
+    // EFFECTS: returns the number of days in the calendar
     public int numDays() {
         return calendar.size();
     }

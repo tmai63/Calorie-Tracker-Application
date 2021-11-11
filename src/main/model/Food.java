@@ -15,7 +15,6 @@ public class Food {
     //           foodName has non-zero length
     // EFFECTS: mealType on food is set to mealType; name of the food is set to foodName;
     //              and number of calories is set to calories
-
     public Food(String mealType, String foodName, int calories) {
         this.mealType = mealType;
         this.foodName = foodName;
