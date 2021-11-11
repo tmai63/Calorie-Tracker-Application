@@ -27,6 +27,8 @@ public class Food {
             mealOrder = 3;
         } else if (mealType.equals("Snack")) {
             mealOrder = 4;
+        } else {
+            mealOrder = 0;
         }
     }
 
