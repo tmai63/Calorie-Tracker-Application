@@ -105,7 +105,7 @@ public class TrackerAppGUI extends JPanel {
         setDateButton.addActionListener(new SetDatePanel());
         removeMeal = new JButton(removeMealString);
         removeMeal.setActionCommand(removeMealString);
-        removeMeal.addActionListener(new RemoveMeal(removeMeal));
+        removeMeal.addActionListener(new RemoveMeal());
 
         // Create list of foods
         listModel = new DefaultListModel();
@@ -254,6 +254,7 @@ public class TrackerAppGUI extends JPanel {
 
         // Create background frame
         loadingScreen = new JFrame();
+        loadingScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loadingScreen.setBounds(600,0,50,50);
         JPanel loadingPanel = new JPanel();
         loadingPanel.setLayout(new BoxLayout(loadingPanel, BoxLayout.PAGE_AXIS));
@@ -333,69 +334,23 @@ public class TrackerAppGUI extends JPanel {
 
     // MODIFIES: Day
     // EFFECTS: removes meal from selected index
-    class RemoveMeal implements ActionListener, DocumentListener {
-        private boolean alreadyEnabled = false;
-        private JButton button;
-
-        public RemoveMeal(JButton button) {
-            this.button = button;
-        }
-
+    class RemoveMeal implements ActionListener {
         //Required by ActionListener.
         public void actionPerformed(ActionEvent e) {
             int index = list.getSelectedIndex(); //get selected index
-            if (index == -1) { //no selection, so insert at beginning
-                index = 0;
-            } else {           //add after the selected item
-                index++;
+            if (index != -1) { //no selection, so insert at beginning
+                currentDay.removeItem(index);
+                // clears list
+                listModel.removeAllElements();
+                // add the food to list
+                for (int i = 0; i < currentDay.numItems(); i++) {
+                    listModel.addElement(currentDay.returnItem(i));
+                }
+                currentCalories.setText("Current Calories:" + currentDay.returnCalories());
+                //Select the new item and make it visible.
+                list.setSelectedIndex(index);
+                list.ensureIndexIsVisible(index);
             }
-            currentDay.removeItem(index);
-            // clears list
-            listModel.removeAllElements();
-            // add the food to list
-            for (int i = 0; i < currentDay.numItems(); i++) {
-                listModel.addElement(currentDay.returnItem(i));
-            }
-            currentCalories.setText("Current Calories:" + currentDay.returnCalories());
-            //Select the new item and make it visible.
-            list.setSelectedIndex(index);
-            list.ensureIndexIsVisible(index);
-        }
-
-        protected boolean alreadyInList(String name) {
-            return listModel.contains(name);
-        }
-
-        //Required by DocumentListener.
-        public void insertUpdate(DocumentEvent e) {
-            enableButton();
-        }
-
-        //Required by DocumentListener.
-        public void removeUpdate(DocumentEvent e) {
-            handleEmptyTextField(e);
-        }
-
-        //Required by DocumentListener.
-        public void changedUpdate(DocumentEvent e) {
-            if (!handleEmptyTextField(e)) {
-                enableButton();
-            }
-        }
-
-        private void enableButton() {
-            if (!alreadyEnabled) {
-                button.setEnabled(true);
-            }
-        }
-
-        private boolean handleEmptyTextField(DocumentEvent e) {
-            if (e.getDocument().getLength() <= 0) {
-                button.setEnabled(false);
-                alreadyEnabled = false;
-                return true;
-            }
-            return false;
         }
     }
 
