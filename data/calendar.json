@@ -1,83 +1,23 @@
 {"Calendar": [
     {
-        "Calorie Target": 2000,
+        "Calorie Target": 0,
+        "Meals": [],
+        "Date": "9999-11-30"
+    },
+    {
+        "Calorie Target": 0,
         "Meals": [
             {
-                "Meal": "Breakfast",
-                "Calories": 300,
-                "Name": "Dumplings"
-            },
-            {
-                "Meal": "Lunch",
-                "Calories": 500,
-                "Name": "Pizza Pops"
-            },
-            {
-                "Meal": "Dinner",
-                "Calories": 500,
-                "Name": "Pasta"
-            },
-            {
-                "Meal": "Dinner",
-                "Calories": 500,
-                "Name": "Beers"
+                "Meal": "Snack",
+                "Calories": 0,
+                "Name": "OREOA2"
             },
             {
                 "Meal": "Snack",
-                "Calories": 400,
-                "Name": "2 Donuts"
+                "Calories": 0,
+                "Name": "OREOA2"
             }
         ],
-        "Date": "2021-11-09"
-    },
-    {
-        "Calorie Target": 2500,
-        "Meals": [
-            {
-                "Meal": "Breakfast",
-                "Calories": 300,
-                "Name": "Cereal"
-            },
-            {
-                "Meal": "Lunch",
-                "Calories": 500,
-                "Name": "Pasta"
-            },
-            {
-                "Meal": "Lunch",
-                "Calories": 300,
-                "Name": "Chicken Nuggets"
-            },
-            {
-                "Meal": "Dinner",
-                "Calories": 250,
-                "Name": "Rice"
-            },
-            {
-                "Meal": "Dinner",
-                "Calories": 100,
-                "Name": "Brocolli"
-            },
-            {
-                "Meal": "Dinner",
-                "Calories": 350,
-                "Name": "Pork"
-            },
-            {
-                "Meal": "Snack",
-                "Calories": 200,
-                "Name": "Chips"
-            }
-        ],
-        "Date": "2021-11-10"
-    },
-    {
-        "Calorie Target": 3000,
-        "Meals": [{
-            "Meal": "Breakfast",
-            "Calories": 220,
-            "Name": "cereal"
-        }],
-        "Date": "2021-11-19"
+        "Date": "9999-12-31"
     }
 ]}

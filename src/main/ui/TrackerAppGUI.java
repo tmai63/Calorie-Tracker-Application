@@ -265,6 +265,7 @@ public class TrackerAppGUI extends JPanel {
     // EFFECTS: Create background frame
     public void createBackgroundFrame() {
         loadingScreen = new JFrame();
+        loadingScreen.setResizable(false);
         loadingScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loadingScreen.setBounds(600, 0, 50, 50);
         JPanel loadingPanel = new JPanel();
@@ -478,6 +479,7 @@ public class TrackerAppGUI extends JPanel {
                     calorieTargetInput.setText("");
                     currentDay.setCalorieTarget(calories);
                     calorieTarget.setText("Calorie Target: " + currentDay.returnCalorieTarget());
+                    calorieTargetPanelText.setText("Valid Calorie Target");
                 } else {
                     calorieTargetPanelText.setText("Target can't be negative!");
                     Toolkit.getDefaultToolkit().beep();
