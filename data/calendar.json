@@ -70,5 +70,14 @@
             }
         ],
         "Date": "2021-11-10"
+    },
+    {
+        "Calorie Target": 3000,
+        "Meals": [{
+            "Meal": "Breakfast",
+            "Calories": 220,
+            "Name": "cereal"
+        }],
+        "Date": "2021-11-19"
     }
 ]}
