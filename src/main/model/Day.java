@@ -83,7 +83,7 @@ public class Day {
 
     // EFFECTS: removes the item at index
     public void removeItem(int index) {
-        EventLog.getInstance().logEvent(new Event("Removed " + foods.get(index - 1).getFoodName()
+        EventLog.getInstance().logEvent(new Event("Removed " + foods.get(index).getFoodName()
                 + " from " + date));
         foods.remove(index - 1);
     }

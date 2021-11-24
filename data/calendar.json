@@ -1,20 +1,21 @@
-{"Calendar": [
-    {
-        "Calorie Target": 5000,
-        "Meals": [{
-            "Meal": "Lunch",
-            "Calories": 5000,
-            "Name": "Croisant "
-        }],
-        "Date": "2021-11-19"
-    },
-    {
-        "Calorie Target": 0,
-        "Meals": [{
+{"Calendar": [{
+    "Calorie Target": 2000,
+    "Meals": [
+        {
             "Meal": "Breakfast",
-            "Calories": 500,
+            "Calories": 300,
             "Name": "Cereal"
-        }],
-        "Date": "2021-11-20"
-    }
-]}
+        },
+        {
+            "Meal": "Lunch",
+            "Calories": 800,
+            "Name": "Burger"
+        },
+        {
+            "Meal": "Dinner",
+            "Calories": 500,
+            "Name": "Pizza"
+        }
+    ],
+    "Date": "2021-11-23"
+}]}
