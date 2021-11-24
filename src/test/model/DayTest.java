@@ -4,6 +4,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DayTest {
@@ -14,7 +16,7 @@ public class DayTest {
 
     @BeforeEach
     void runBefore() {
-        day = new Day();
+        day = new Day(LocalDate.now());
         hamburger = new Food("Lunch","Hamburger",600);
         steak = new Food("Dinner","Steak",700);
     }

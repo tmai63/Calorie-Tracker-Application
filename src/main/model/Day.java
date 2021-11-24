@@ -14,16 +14,17 @@ public class Day {
     private List<Food> foods; // list of foods eaten
     private int calorieTarget = 0;
 
-    // EFFECTS: creates new ArrayList of foods to store items eaten for current day
-    public Day() {
-        foods = new ArrayList<>();
-        date = LocalDate.now();
-    }
+//    // EFFECTS: creates new ArrayList of foods to store items eaten for current day
+//    public Day() {
+//        foods = new ArrayList<>();
+//        date = LocalDate.now();
+//    }
 
     // EFFECTS: creates new Arraylist of foods for a certain date
     public Day(LocalDate date) {
         foods = new ArrayList<>();
         this.date = date;
+        EventLog.getInstance().logEvent(new Event("Added " + date + " to Calendar"));
     }
 
     // MODIFIES: this
@@ -31,6 +32,7 @@ public class Day {
     public void addMeal(Food food) {
         foods.add(food);
         sortFoods();
+        EventLog.getInstance().logEvent(new Event("Added " + food.getFoodName() + " to " + date));
     }
 
     // EFFECTS: loops through the food list and returns the sum of total calories
@@ -61,6 +63,7 @@ public class Day {
     // EFFECTS: sets calorieTarget
     public void setCalorieTarget(int calorieTarget) {
         this.calorieTarget = calorieTarget;
+        EventLog.getInstance().logEvent(new Event("Set calorie target for " + date + " to " + calorieTarget));
     }
 
     // EFFECTS: returns calorieTarget
@@ -80,6 +83,8 @@ public class Day {
 
     // EFFECTS: removes the item at index
     public void removeItem(int index) {
+        EventLog.getInstance().logEvent(new Event("Removed " + foods.get(index - 1).getFoodName()
+                + " from " + date));
         foods.remove(index - 1);
     }
 

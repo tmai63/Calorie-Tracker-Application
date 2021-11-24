@@ -1,8 +1,7 @@
 package ui;
 
-import model.Day;
-import model.DayManager;
-import model.Food;
+import model.Event;
+import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -86,7 +85,7 @@ public class TrackerAppGUI extends JPanel {
         super(new BorderLayout());
 
         // Initialization of model objects
-        currentDay = new Day();
+        currentDay = new Day(LocalDate.now());
         dayManager = new DayManager();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
@@ -147,7 +146,7 @@ public class TrackerAppGUI extends JPanel {
     // EFFECTS: Create textFields on right panel
     public void createRightLabels() {
         currentDate = new JLabel();
-        currentDate.setText("Selected Date: ");
+        currentDate.setText("Selected Date: " + currentDay.returnDate());
         currentCalories = new JLabel();
         currentCalories.setText("Current Calories:");
         calorieTarget = new JLabel();
@@ -338,7 +337,7 @@ public class TrackerAppGUI extends JPanel {
                 jsonWriter.open();
                 jsonWriter.write(dayManager);
                 jsonWriter.close();
-                System.out.println("Saved data to " + JSON_STORE);
+                //System.out.println("Saved data to " + JSON_STORE);
             } catch (FileNotFoundException fileNotFoundException) {
                 System.out.println("Unable to write to file: " + JSON_STORE);
             }
@@ -351,7 +350,7 @@ public class TrackerAppGUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             try {
                 dayManager = jsonReader.read();
-                System.out.println("Loaded data from " + JSON_STORE);
+                //System.out.println("Loaded data from " + JSON_STORE);
             } catch (IOException ioException) {
                 System.out.println("Unable to read from file: " + JSON_STORE);
             }
@@ -646,9 +645,17 @@ public class TrackerAppGUI extends JPanel {
     // EFFECTS: quits the application
     class QuitApplication implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            printLog(EventLog.getInstance());
             System.exit(0);
         }
+
+        public void printLog(EventLog el) {
+            for (Event event : el) {
+                System.out.println(event.toString());
+            }
+        }
     }
+
 
     // EFFECTS: creates a new GUI and shows it
     private static void createAndShowGUI() {

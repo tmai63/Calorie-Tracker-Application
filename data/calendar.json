@@ -1,23 +1,20 @@
 {"Calendar": [
     {
-        "Calorie Target": 0,
-        "Meals": [],
-        "Date": "9999-11-30"
+        "Calorie Target": 5000,
+        "Meals": [{
+            "Meal": "Lunch",
+            "Calories": 5000,
+            "Name": "Croisant "
+        }],
+        "Date": "2021-11-19"
     },
     {
         "Calorie Target": 0,
-        "Meals": [
-            {
-                "Meal": "Snack",
-                "Calories": 0,
-                "Name": "OREOA2"
-            },
-            {
-                "Meal": "Snack",
-                "Calories": 0,
-                "Name": "OREOA2"
-            }
-        ],
-        "Date": "9999-12-31"
+        "Meals": [{
+            "Meal": "Breakfast",
+            "Calories": 500,
+            "Name": "Cereal"
+        }],
+        "Date": "2021-11-20"
     }
 ]}

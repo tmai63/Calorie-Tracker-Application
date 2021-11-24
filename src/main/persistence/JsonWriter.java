@@ -2,6 +2,8 @@ package persistence;
 
 import model.Day;
 import model.DayManager;
+import model.Event;
+import model.EventLog;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -31,6 +33,7 @@ public class JsonWriter {
     public void write(DayManager dayManager) {
         JSONObject json = dayManager.toJson();
         saveToFile(json.toString(TAB));
+        EventLog.getInstance().logEvent(new Event("Saved data to " + destination));
     }
 
     // MODIFIES: this

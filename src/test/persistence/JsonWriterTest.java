@@ -49,7 +49,7 @@ public class JsonWriterTest {
     void testFullDayManager() {
         try {
             DayManager dm = new DayManager();
-            Day day = new Day();
+            Day day = new Day(LocalDate.now());
             day.setCalorieTarget(1500);
             day.addMeal(new Food("Breakfast","Bagel",200));
             dm.addDay(day.returnDate(), day);

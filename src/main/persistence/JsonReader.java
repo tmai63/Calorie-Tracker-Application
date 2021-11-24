@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Day;
+import model.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
-import model.DayManager;
-import model.Food;
 import org.json.*;
 
 // Represents a reader that reads DayManager from JSON data stored in file
@@ -51,6 +49,7 @@ public class JsonReader {
             JSONObject nextDay = (JSONObject) json;
             dm.addDay(parseDay(nextDay).returnDate(), parseDay(nextDay));
         }
+        EventLog.getInstance().logEvent(new Event("Loaded dates from " + source));
         return dm;
     }
 
