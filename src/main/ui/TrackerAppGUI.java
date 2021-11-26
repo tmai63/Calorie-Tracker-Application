@@ -375,6 +375,7 @@ public class TrackerAppGUI extends JPanel {
                 //Select the new item and make it visible.
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
+                mainFrame.pack();
             }
         }
     }

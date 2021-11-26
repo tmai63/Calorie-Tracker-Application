@@ -85,7 +85,7 @@ public class Day {
     public void removeItem(int index) {
         EventLog.getInstance().logEvent(new Event("Removed " + foods.get(index).getFoodName()
                 + " from " + date));
-        foods.remove(index - 1);
+        foods.remove(index);
     }
 
     // EFFECTS: returns a json Object with the fields of this Day

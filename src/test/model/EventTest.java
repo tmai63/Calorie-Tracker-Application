@@ -35,4 +35,5 @@ public class EventTest {
 	public void testToString() {
 		assertEquals(d.toString() + "\n" + "Added Breakfast", e.toString());
 	}
+
 }
