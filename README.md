@@ -20,3 +20,6 @@ history and view your progress!
 - As a user, I want to be able to see how many more calories I can consume and remain below my target
 - As a user, I want to be able to save the foods I have eaten
 - As a user, I want to be able to load the foods I have eaten previously
+
+<img width="752" alt="Screen Shot 2021-11-28 at 5 31 16 PM" src="https://user-images.githubusercontent.com/65327591/143795597-cfdf5716-2b22-4f30-ba6e-4a196819107d.png">
+<img width="553" alt="Screen Shot 2021-11-28 at 5 32 26 PM" src="https://user-images.githubusercontent.com/65327591/143795599-598a5b7e-e89d-480e-9ed3-2836edebdf68.png">
